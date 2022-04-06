@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-@RepositoryRestResource
+//@RepositoryRestResource
 public interface CompteRepository extends JpaRepository<Compte, Long> {
     List<Compte> findByType(TypeCompte type);
     List<Compte> findBySolde(double solde);
