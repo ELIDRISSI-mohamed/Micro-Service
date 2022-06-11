@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 
 import java.util.Date;
 
@@ -18,12 +19,17 @@ public class MicroServiceApplication {
 	}
 
 	@Bean
-	CommandLineRunner start(CompteRepository compteRepository){
+	CommandLineRunner start(CompteRepository compteRepository, RepositoryRestConfiguration restConfiguration){
 		return args -> {
-			compteRepository.save(new Compte(null, 10000, new Date(), TypeCompte.COURANT));
-			compteRepository.save(new Compte(null, 11100, new Date(), TypeCompte.EPARGNE));
-			compteRepository.save(new Compte(null, 2200, new Date(), TypeCompte.COURANT));
-
+			restConfiguration.exposeIdsFor(Compte.class);
+			compteRepository.save(new Compte(null,8000,new Date(), TypeCompte.COURANT));
+			compteRepository.save(new Compte(null,200,new Date(), TypeCompte.EPARGNE));
+			compteRepository.save(new Compte(null,4900,new Date(), TypeCompte.COURANT));
+			compteRepository.save(new Compte(null,9900,new Date(), TypeCompte.COURANT));
+			compteRepository.findAll().forEach(cp->{
+				System.out.println(cp.getType());
+				System.out.println(cp.getSolde());
+			});
 
 		};
 	}
